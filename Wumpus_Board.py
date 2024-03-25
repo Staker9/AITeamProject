@@ -1,5 +1,3 @@
-# 주어진 코드와 같은 파일 내에 이 코드를 추가하거나 별도의 파일로 분리할 수 있습니다.
-# Sensor.py 모듈을 임포트합니다.
 from Sensor import add_breeze, add_glitter, add_stench
 import numpy as np
 
@@ -7,31 +5,36 @@ import numpy as np
 class GridWorld:
 
     def __init__(self):
-        self.grid_size = 4
+        self.grid_size = 6
         self.grid = [[[] for _ in range(self.grid_size)] for _ in range(self.grid_size)]
 
     def setup_grid(self):
-        self.grid[0][0].append('Safe')
-
+        # 테두리를 Wall로 설정
         for i in range(self.grid_size):
             for j in range(self.grid_size):
-                if (i, j) != (0, 0) and (i, j) != (3, 3):
+                if i == 0 or i == self.grid_size - 1 or j == 0 or j == self.grid_size - 1:
+                    self.grid[i][j].append('Wall')
+
+        # 1,1은 Safe로, 4,4는 Gold로 설정
+        self.grid[1][1].append('Safe')
+        self.grid[4][4].append('Gold')
+        add_glitter(self.grid, 4 - 1, 4)
+        add_glitter(self.grid, 4, 4 - 1)
+
+        # 나머지 위치에 대한 설정
+        for i in range(1, self.grid_size - 1):
+            for j in range(1, self.grid_size - 1):
+                if (i, j) not in [(1, 1), (4, 4)]:
                     if np.random.rand() < 0.1:
                         self.grid[i][j].append('Pit')
                         add_breeze(self.grid, i, j, self.grid_size)
-                    if np.random.rand() < 0.1:
+                    elif np.random.rand() < 0.1:
                         self.grid[i][j].append('Wumpus')
                         add_stench(self.grid, i, j, self.grid_size)
 
-        # 금 위치 설정 및 Glitter 추가
-        gold_x, gold_y = (3, 3)
-        self.grid[gold_x][gold_y].append('Gold')
-        add_glitter(self.grid, gold_x - 1, gold_y)
-        add_glitter(self.grid, gold_x, gold_y - 1)
-
     def print_grid(self):
         cell_width = 14
-        horizontal_line = "-" * 61
+        horizontal_line = "-" * (self.grid_size * (cell_width + 1) + 1)
 
         for row in self.grid:
             print(horizontal_line)
