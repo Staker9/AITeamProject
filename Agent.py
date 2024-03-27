@@ -1,6 +1,5 @@
-from Wumpus_Board import *
-from Sensor import add_breeze, add_glitter, add_stench
-import numpy as np
+import random
+
 
 class Agent:
     def __init__(self, grid_size):
@@ -10,31 +9,38 @@ class Agent:
         self.has_gold = False  # 금을 가지고 있는지 여부
         self.is_alive = True  # 에이전트가 살아있는지 여부
 
-    def move(self, direction, grid): # 랜덤으로 돌아가게 하는 부분도 있어야함
-        if direction == 'UP':
-            new_y = self.y - 1
-            if self.is_valid_move(self.x, new_y, grid):
-                self.y = new_y
-            else:
-                self.bump()
-        elif direction == 'DOWN':
-            new_y = self.y + 1
-            if self.is_valid_move(self.x, new_y, grid):
-                self.y = new_y
-            else:
-                self.bump()
-        elif direction == 'LEFT':
-            new_x = self.x - 1
-            if self.is_valid_move(new_x, self.y, grid):
-                self.x = new_x
-            else:
-                self.bump()
-        elif direction == 'RIGHT':
-            new_x = self.x + 1
-            if self.is_valid_move(new_x, self.y, grid):
-                self.x = new_x
-            else:
-                self.bump()
+    def move(self, grid):
+        directions = ['UP', 'DOWN', 'LEFT', 'RIGHT']
+        random.shuffle(directions)  # 방향을 랜덤하게 섞습니다.
+
+        moved = False
+        for direction in directions:
+            if direction == 'UP':
+                new_y = self.y - 1
+                if self.is_valid_move(self.x, new_y, grid):
+                    self.y = new_y
+                    moved = True
+            elif direction == 'DOWN':
+                new_y = self.y + 1
+                if self.is_valid_move(self.x, new_y, grid):
+                    self.y = new_y
+                    moved = True
+            elif direction == 'LEFT':
+                new_x = self.x - 1
+                if self.is_valid_move(new_x, self.y, grid):
+                    self.x = new_x
+                    moved = True
+            elif direction == 'RIGHT':
+                new_x = self.x + 1
+                if self.is_valid_move(new_x, self.y, grid):
+                    self.x = new_x
+                    moved = True
+
+            if moved:  # 유효한 이동이 이루어졌다면 현재 셀을 확인합니다.
+                break
+
+        if not moved:
+            print("Can't move in any direction.")
 
         self.check_current_cell(grid)
 
@@ -62,4 +68,4 @@ class Agent:
         self.x = 1
         self.y = 1
         self.has_gold = False
-        self.is_alive = False  # 이 부분은 게임의 룰에 따라 조정할 수 있습니다. 죽음 대신 리셋을 원한다면 is_alive를 True로 유지하고 다른 처리를 할 수 있습니다.
+        self.is_alive = False
