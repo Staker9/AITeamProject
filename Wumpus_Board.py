@@ -23,7 +23,6 @@ class GridWorld:
             for j in range(self.grid_size):
                 if i == 0 or i == self.grid_size - 1 or j == 0 or j == self.grid_size - 1:
                     self.grid[i][j].append('~')
-                    #wall '~'로 변경 0401시영
 
         # 1,1은 Safe로, 4,4는 Gold로 설정
         self.grid[1][1].append('Safe')
@@ -42,7 +41,6 @@ class GridWorld:
                         self.grid[i][j].append('Wumpus')
                         add_stench(self.grid, i, j, self.grid_size)
 
-    #색깔추가, Step 추가 0401시영
     def print_grid(self, agent_x=None, agent_y=None, step=None):
         if step is not None:
             print(f"Step: {step}")  # 단계 출력
