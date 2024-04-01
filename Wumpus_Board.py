@@ -1,5 +1,5 @@
 #0401 시영
-#Agent 파란색/ pit, Wumpus 빨간색/ Gold 노란색
+#Agent 초록색/ pit 빨간색/ Wumpus 보라색/ Gold 노란색
 #움직일때마다 Step 추가
 #25 line 'Wall'-> '~' 로 수정
 
@@ -23,7 +23,7 @@ class GridWorld:
             for j in range(self.grid_size):
                 if i == 0 or i == self.grid_size - 1 or j == 0 or j == self.grid_size - 1:
                     self.grid[i][j].append('~')
-                    
+                    #wall '~'로 변경 0401시영
 
         # 1,1은 Safe로, 4,4는 Gold로 설정
         self.grid[1][1].append('Safe')
@@ -54,11 +54,11 @@ class GridWorld:
             print(horizontal_line)
             for j, cell in enumerate(row):
                 if agent_x == i and agent_y == j:
-                    cell_content = Fore.BLUE + 'Agent'.center(cell_width) + Style.RESET_ALL
+                    cell_content = Fore.GREEN + 'Agent'.center(cell_width) + Style.RESET_ALL
                 elif not cell:
                     cell_content = 'None'.center(cell_width)
                 elif 'Wumpus' in cell:
-                    cell_content = Fore.RED + ','.join(cell).center(cell_width) + Style.RESET_ALL
+                    cell_content = Fore.MAGENTA + ','.join(cell).center(cell_width) + Style.RESET_ALL
                 elif 'Pit' in cell:
                     cell_content = Fore.RED + ','.join(cell).center(cell_width) + Style.RESET_ALL
                 elif 'Gold' in cell:
