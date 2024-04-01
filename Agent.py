@@ -2,8 +2,6 @@
 #63, 102line Wall -> '~'문자로 변경
 #pick_up_gold 시 격자에서 'Gold'문구 삭제
 
-#문제는 Gold를 들고있는 상태에서 죽는다면 reset시 Gold가 다시 [4][4]Cell에 존재해야함
-#이부분은 나중에 Q러닝 작성하면서 다시 수정합시다..
 
 import random
 
