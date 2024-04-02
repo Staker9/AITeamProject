@@ -1,7 +1,7 @@
 import random
 
 class Agent:
-    def __init__(self, grid_size):
+    def __init__(self, grid_size, grid_world):
         self.x = 1  # 시작 위치 X
         self.y = 1  # 시작 위치 Y
         self.grid_size = grid_size
@@ -9,6 +9,7 @@ class Agent:
         self.direction_index = 1  # 현재 방향을 directions 리스트의 인덱스로 표현
         self.has_gold = False  # 금을 가지고 있는지 여부
         self.is_alive = True  # 에이전트가 살아있는지 여부
+        self.grid_world = grid_world
         self.arrows = 2
 
     def move(self, grid):
@@ -67,17 +68,23 @@ class Agent:
         if 'Gold' in current_cell:
             self.pick_up_gold(grid)
         elif 'Pit' in current_cell or 'Wumpus' in current_cell:
-            self.reset()
+            self.reset(grid, self.grid_world)
 
     def pick_up_gold(self,grid):
         print("Picked up gold!")
         self.has_gold = True
         grid[self.x][self.y].remove('Gold')
 
-    def reset(self):
+    def reset(self, grid, grid_world):
         print("Resetting agent...")
         self.x = 1
         self.y = 1
         self.direction_index = 1  # 방향 초기화
         self.has_gold = False
         self.is_alive = True
+        if 'Gold' not in grid[4][4]:
+            grid[4][4].append('Gold')
+        if grid_world.wumpus_location is not None:
+            wx, wy = grid_world.wumpus_location
+            if 'Wumpus' not in grid[wx][wy]:
+                grid[wx][wy].append('Wumpus')
