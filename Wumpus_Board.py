@@ -1,16 +1,8 @@
-#0401 시영
-#Agent 초록색/ pit 빨간색/ Wumpus 보라색/ Gold 노란색
-#움직일때마다 Step 추가
-#25 line 'Wall'-> '~' 로 수정
-
-
 import Agent
 from Sensor import add_breeze, add_glitter, add_stench
 import numpy as np
+
 from colorama import Fore, Style
-
-
-
 class GridWorld:
 
     def __init__(self):
@@ -22,7 +14,7 @@ class GridWorld:
         for i in range(self.grid_size):
             for j in range(self.grid_size):
                 if i == 0 or i == self.grid_size - 1 or j == 0 or j == self.grid_size - 1:
-                    self.grid[i][j].append('~')
+                    self.grid[i][j].append('Wall')
 
         # 1,1은 Safe로, 4,4는 Gold로 설정
         self.grid[1][1].append('Safe')
@@ -70,7 +62,7 @@ class GridWorld:
         print(horizontal_line + "\n")
 
 
+
 world = GridWorld()
 world.setup_grid()
-world.print_grid()
-
+#world.print_grid()
