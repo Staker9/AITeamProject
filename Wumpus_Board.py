@@ -3,26 +3,27 @@
 #움직일때마다 Step 추가
 #25 line 'Wall'-> '~' 로 수정
 
+#0402 재현
+#44line 왈람쓰 위치저장 추가
 
 import Agent
 from Sensor import add_breeze, add_glitter, add_stench
 import numpy as np
+
 from colorama import Fore, Style
-
-
-
 class GridWorld:
 
     def __init__(self):
         self.grid_size = 6
         self.grid = [[[] for _ in range(self.grid_size)] for _ in range(self.grid_size)]
+        self.wumpus_location = None
 
     def setup_grid(self):
         # 테두리를 Wall로 설정
         for i in range(self.grid_size):
             for j in range(self.grid_size):
                 if i == 0 or i == self.grid_size - 1 or j == 0 or j == self.grid_size - 1:
-                    self.grid[i][j].append('~')
+                    self.grid[i][j].append('Wall')
 
         # 1,1은 Safe로, 4,4는 Gold로 설정
         self.grid[1][1].append('Safe')
@@ -40,6 +41,7 @@ class GridWorld:
                     elif np.random.rand() < 0.1:
                         self.grid[i][j].append('Wumpus')
                         add_stench(self.grid, i, j, self.grid_size)
+                        self.wumpus_location = (i, j)  # Wumpus 위치 저장
 
     def print_grid(self, agent_x=None, agent_y=None, step=None):
         if step is not None:
@@ -70,7 +72,9 @@ class GridWorld:
         print(horizontal_line + "\n")
 
 
+
 world = GridWorld()
 world.setup_grid()
-world.print_grid()
+#world.print_grid()
+
 
