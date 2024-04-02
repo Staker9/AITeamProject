@@ -8,6 +8,7 @@ class GridWorld:
     def __init__(self):
         self.grid_size = 6
         self.grid = [[[] for _ in range(self.grid_size)] for _ in range(self.grid_size)]
+        self.wumpus_location = None
 
     def setup_grid(self):
         # 테두리를 Wall로 설정
@@ -32,6 +33,7 @@ class GridWorld:
                     elif np.random.rand() < 0.1:
                         self.grid[i][j].append('Wumpus')
                         add_stench(self.grid, i, j, self.grid_size)
+                        self.wumpus_location = (i, j)  # Wumpus 위치 저장
 
     def print_grid(self, agent_x=None, agent_y=None, step=None):
         if step is not None:
