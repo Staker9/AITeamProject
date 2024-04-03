@@ -17,7 +17,7 @@ agent = Agent.Agent(grid_size=world.grid_size, grid_world=world)
 
 
 
-step = 0
+step = 1
 
 # 에이전트가 금을 가지고 있고 (1, 1) 위치에 있는지 확인하는 조건으로 게임 루프 시작
 while not (agent.has_gold and agent.x == 1 and agent.y == 1):
