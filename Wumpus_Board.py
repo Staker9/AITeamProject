@@ -4,7 +4,7 @@
 #25 line 'Wall'-> '~' 로 수정
 
 #0402 재현
-#44line 왈람쓰 위치저장 추가
+#44line 왈람쓰 위치저장 추가 ,33line 함수로 수정
 
 import Agent
 from Sensor import add_breeze, add_glitter, add_stench
@@ -30,8 +30,7 @@ class GridWorld:
         # 1,1은 Safe로, 4,4는 Gold로 설정
         self.grid[1][1].append('Safe')
         self.grid[4][4].append('Gold')
-        add_glitter(self.grid, 4 - 1, 4)
-        add_glitter(self.grid, 4, 4 - 1)
+        add_glitter(self.grid, 4,4, self.grid_size)
 
         # 나머지 위치에 대한 설정
         for i in range(1, self.grid_size - 1):
