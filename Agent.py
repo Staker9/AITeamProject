@@ -1,10 +1,15 @@
 #0401 시영
 #63, 102line Wall -> '~'문자로 변경
 #pick_up_gold 시 격자에서 'Gold'문구 삭제
+
 #0402 재현
 #12(수정), 20, 79 추가
 #def reset 수정
 #reset되면 골드랑 왈람쓰 리스폰
+
+#0403 시형
+#def shoot 활성화
+#115~118 추가 (reset되면 wumpus와 같이 S 생성되는지 확인필요.)
 
 import random
 
@@ -80,6 +85,8 @@ class Agent:
             self.fall_into_pit(grid)
         elif 'Wumpus' in current_cell:
             self.meet_wumpus(grid)
+        elif 'S' in current_cell:
+            self.shoot(grid)
 
     # 골드 획득시 격자에서 'Gold 삭제' 0401시영
     def pick_up_gold(self, grid):
@@ -102,12 +109,20 @@ class Agent:
             self.arrows -= 1
             self.scream(grid)
 
+
     def scream(self, grid):
         for i, j in [(self.x - 1, self.y), (self.x + 1, self.y), (self.x, self.y - 1), (self.x, self.y + 1)]:
             if 0 <= i < self.grid_size and 0 <= j < self.grid_size and '~' not in grid[i][j]:
                 if 'Wumpus' in grid[i][j]:
                     grid[i][j].remove('Wumpus')
+                    grid[i - 1][j].remove('S')
+                    grid[i + 1][j].remove('S')
+                    grid[i][j - 1].remove('S')
+                    grid[i][j + 1].remove('S')
                     print("The Wumpus was removed by the agent!")
+
+
+
 
     def reset(self, grid, grid_world):
         print("Resetting agent...")
