@@ -11,8 +11,12 @@
 #def shoot 활성화
 #115~118 추가 (reset되면 wumpus와 같이 S 생성되는지 확인필요.)
 
-import random
+#0403 재현
+#del_stench 추가
 
+
+import random
+import Sensor
 
 class Agent:
     def __init__(self, grid_size, grid_world):
@@ -109,20 +113,13 @@ class Agent:
             self.arrows -= 1
             self.scream(grid)
 
-
     def scream(self, grid):
         for i, j in [(self.x - 1, self.y), (self.x + 1, self.y), (self.x, self.y - 1), (self.x, self.y + 1)]:
             if 0 <= i < self.grid_size and 0 <= j < self.grid_size and '~' not in grid[i][j]:
                 if 'Wumpus' in grid[i][j]:
                     grid[i][j].remove('Wumpus')
-                    grid[i - 1][j].remove('S')
-                    grid[i + 1][j].remove('S')
-                    grid[i][j - 1].remove('S')
-                    grid[i][j + 1].remove('S')
+                    Sensor.del_stench(grid, i, j, self.grid_size)
                     print("The Wumpus was removed by the agent!")
-
-
-
 
     def reset(self, grid, grid_world):
         print("Resetting agent...")
