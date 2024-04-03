@@ -40,18 +40,18 @@ class Agent:
     def go_forward(self, grid):
         direction = self.directions[self.direction_index]
         if direction == 'UP':
-            new_y = self.y - 1
-        elif direction == 'DOWN':
-            new_y = self.y + 1
-        else:
-            new_y = self.y
-
-        if direction == 'LEFT':
             new_x = self.x - 1
-        elif direction == 'RIGHT':
+        elif direction == 'DOWN':
             new_x = self.x + 1
         else:
             new_x = self.x
+
+        if direction == 'LEFT':
+            new_y = self.y - 1
+        elif direction == 'RIGHT':
+            new_y = self.y + 1
+        else:
+            new_y = self.y
 
         if self.is_valid_move(new_x, new_y, grid):
             self.x, self.y = new_x, new_y
