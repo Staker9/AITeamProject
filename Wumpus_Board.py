@@ -9,8 +9,10 @@
 import Agent
 from Sensor import add_breeze, add_glitter, add_stench
 import numpy as np
-
 from colorama import Fore, Style
+
+
+
 class GridWorld:
 
     def __init__(self):
@@ -23,7 +25,7 @@ class GridWorld:
         for i in range(self.grid_size):
             for j in range(self.grid_size):
                 if i == 0 or i == self.grid_size - 1 or j == 0 or j == self.grid_size - 1:
-                    self.grid[i][j].append('Wall')
+                    self.grid[i][j].append('~')
 
         # 1,1은 Safe로, 4,4는 Gold로 설정
         self.grid[1][1].append('Safe')
@@ -72,9 +74,7 @@ class GridWorld:
         print(horizontal_line + "\n")
 
 
-
 world = GridWorld()
 world.setup_grid()
-#world.print_grid()
-
+world.print_grid()
 
