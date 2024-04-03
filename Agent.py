@@ -8,6 +8,7 @@
 
 import random
 
+
 class Agent:
     def __init__(self, grid_size, grid_world):
         self.x = 1  # 시작 위치 X
@@ -64,24 +65,49 @@ class Agent:
         print("Turned right")
 
     def is_valid_move(self, x, y, grid):
-        if x < 0 or x >= self.grid_size or y < 0 or y >= self.grid_size or 'Wall' in grid[x][y]:
+        if x < 0 or x >= self.grid_size or y < 0 or y >= self.grid_size or '~' in grid[x][y]:
             return False
         return True
 
     def bump(self):
-        print("Bump! Hit a wall or an invalid space.")
+        print("Bump! Hit a wall.")
 
     def check_current_cell(self, grid):
         current_cell = grid[self.x][self.y]
         if 'Gold' in current_cell:
             self.pick_up_gold(grid)
-        elif 'Pit' in current_cell or 'Wumpus' in current_cell:
-            self.reset(grid, self.grid_world)
+        elif 'Pit' in current_cell:
+            self.fall_into_pit(grid)
+        elif 'Wumpus' in current_cell:
+            self.meet_wumpus(grid)
 
-    def pick_up_gold(self,grid):
+    # 골드 획득시 격자에서 'Gold 삭제' 0401시영
+    def pick_up_gold(self, grid):
         print("Picked up gold!")
         self.has_gold = True
         grid[self.x][self.y].remove('Gold')
+
+    def fall_into_pit(self, grid):
+        print("Fell into a pit!")
+        self.is_alive = False
+        self.reset(grid, self.grid_world)
+
+    def meet_wumpus(self, grid):
+        print("Met the Wumpus!")
+        self.is_alive = False
+        self.reset(grid, self.grid_world)
+
+    def shoot(self, grid):
+        if self.arrows > 0:
+            self.arrows -= 1
+            self.scream(grid)
+
+    def scream(self, grid):
+        for i, j in [(self.x - 1, self.y), (self.x + 1, self.y), (self.x, self.y - 1), (self.x, self.y + 1)]:
+            if 0 <= i < self.grid_size and 0 <= j < self.grid_size and '~' not in grid[i][j]:
+                if 'Wumpus' in grid[i][j]:
+                    grid[i][j].remove('Wumpus')
+                    print("The Wumpus was removed by the agent!")
 
     def reset(self, grid, grid_world):
         print("Resetting agent...")
