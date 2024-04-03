@@ -1,19 +1,13 @@
-#0401 시영
-#63, 102line Wall -> '~'문자로 변경
-#pick_up_gold 시 격자에서 'Gold'문구 삭제
-
-#0402 재현
-#12(수정), 20, 79 추가
-#def reset 수정
-#reset되면 골드랑 왈람쓰 리스폰
-
 #0403 시형
 #def shoot 활성화
 #115~118 추가 (reset되면 wumpus와 같이 S 리스폰 구현필요.)
 
 #0403 재현
-#del_stench 추가
+#del_stench, reset시 'G' 추가, Pick up Gold 시 'G' 삭제
 #19, 121 추가
+
+
+
 
 import random
 import Sensor
@@ -97,6 +91,7 @@ class Agent:
         print("Picked up gold!")
         self.has_gold = True
         grid[self.x][self.y].remove('Gold')
+        Sensor.del_glitter(grid, 4, 4, self.grid_size)
 
     def fall_into_pit(self, grid):
         print("Fell into a pit!")
@@ -130,7 +125,9 @@ class Agent:
         self.is_alive = True
         if 'Gold' not in grid[4][4]:
             grid[4][4].append('Gold')
+            Sensor.add_glitter(grid,4,4, self.grid_size)
         if grid_world.wumpus_location is not None:
             wx, wy = grid_world.wumpus_location
             if 'Wumpus' not in grid[wx][wy]:
                 grid[wx][wy].append('Wumpus')
+                Sensor.add_stench(grid, wx, wy, self.grid_size)
