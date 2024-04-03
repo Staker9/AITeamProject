@@ -9,11 +9,11 @@
 
 #0403 시형
 #def shoot 활성화
-#115~118 추가 (reset되면 wumpus와 같이 S 생성되는지 확인필요.)
+#115~118 추가 (reset되면 wumpus와 같이 S 리스폰 구현필요.)
 
 #0403 재현
 #del_stench 추가
-
+#19, 121 추가
 
 import random
 import Sensor
