@@ -6,8 +6,7 @@
 #0402 재현
 #44line 왈람쓰 위치저장 추가 ,33line 함수로 수정
 
-#0527 시영
-# Agent 화살표 추가
+#0527 시영 agent 화살표 추가
 
 import Agent
 from Sensor import add_breeze, add_glitter, add_stench
@@ -47,11 +46,11 @@ class GridWorld:
                         add_stench(self.grid, i, j, self.grid_size)
                         self.wumpus_location = (i, j)  # Wumpus 위치 저장
 
-    def print_grid(self, agent_x=None, agent_y=None, step=None):
+    def print_grid(self, agent, step=None):
         if step is not None:
             print(f"Step: {step}")  # 단계 출력
 
-        cell_width = 14
+        cell_width = 14  # 각 셀의 폭을 더 작게 조정
         horizontal_line = "-" * (self.grid_size * (cell_width + 1) + 1)
 
         direction_symbols = {
@@ -64,8 +63,9 @@ class GridWorld:
         for i, row in enumerate(self.grid):
             print(horizontal_line)
             for j, cell in enumerate(row):
-                if agent_x == i and agent_y == j:
-                    cell_content = Fore.GREEN + 'Agent'.center(cell_width) + Style.RESET_ALL
+                cell_content = ""
+                if agent.x == i and agent.y == j:
+                    cell_content += Fore.GREEN + 'Agent'.center(cell_width-1) + Style.RESET_ALL
                     if agent.directions:
                         cell_content +=Fore.BLUE+f"{direction_symbols[agent.directions[agent.direction_index]]}" +Style.RESET_ALL
                 elif not cell:
@@ -76,8 +76,6 @@ class GridWorld:
                     cell_content = Fore.RED + ','.join(cell).center(cell_width) + Style.RESET_ALL
                 elif 'Gold' in cell:
                     cell_content = Fore.YELLOW + ','.join(cell).center(cell_width) + Style.RESET_ALL
-
-
                 else:
                     cell_content = ','.join(cell).center(cell_width)
                 print("|" + cell_content, end="")
@@ -87,5 +85,4 @@ class GridWorld:
 
 world = GridWorld()
 world.setup_grid()
-world.print_grid()
-
+#world.print_grid()
